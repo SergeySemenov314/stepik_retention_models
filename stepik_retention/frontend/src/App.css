@@ -1,0 +1,153 @@
+.App {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00d9ff, #00ff88);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.subtitle {
+  color: #8892b0;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.loading-state {
+  color: #8892b0;
+  padding: 2rem;
+}
+
+.random-btn {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f0f23;
+  background: linear-gradient(135deg, #00d9ff, #00ff88);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.random-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 217, 255, 0.35);
+}
+
+.random-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-box {
+  padding: 1rem 1.5rem;
+  background: rgba(255, 82, 82, 0.15);
+  border: 1px solid rgba(255, 82, 82, 0.4);
+  border-radius: 8px;
+  color: #ff5252;
+  width: 100%;
+}
+
+.result-card {
+  width: 100%;
+  background: rgba(26, 26, 46, 0.8);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 16px;
+  padding: 1.5rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.result-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.prediction-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.prediction-badge.complete {
+  background: rgba(0, 255, 136, 0.2);
+  color: #00ff88;
+}
+
+.prediction-badge.incomplete {
+  background: rgba(255, 165, 0, 0.2);
+  color: #ffa500;
+}
+
+.probability {
+  margin-left: auto;
+  color: #8892b0;
+  font-size: 0.9rem;
+}
+
+.user-data-section h3 {
+  font-size: 1rem;
+  color: #8892b0;
+  margin: 0 0 1rem 0;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 0.8rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.feature-label {
+  font-size: 0.75rem;
+  color: #8892b0;
+  margin-bottom: 0.25rem;
+}
+
+.feature-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #00d9ff;
+}

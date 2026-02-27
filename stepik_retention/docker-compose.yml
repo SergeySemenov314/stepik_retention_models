@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  stepik-retention-model:
+    build:
+      context: .
+      dockerfile: model_service/Dockerfile
+    container_name: stepik-retention-model
+    ports:
+      - "8001:8000"
+    restart: unless-stopped
+    networks:
+      - ollama-net
+
+  stepik-retention-backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: stepik-retention-backend
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - MODEL_SERVICE_URL=http://stepik-retention-model:8000
+    depends_on:
+      - stepik-retention-model
+    restart: unless-stopped
+    networks:
+      - ollama-net
+
+  stepik-retention-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Замените на ваш IP/домен для production: http://YOUR_IP:3002
+        - REACT_APP_BACKEND_URL=http://localhost:3002
+    ports:
+      - "3003:80"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - stepik-retention-backend
+    restart: unless-stopped
+    container_name: stepik-retention-frontend
+    networks:
+      - ollama-net
+
+networks:
+  ollama-net:
+    external: true

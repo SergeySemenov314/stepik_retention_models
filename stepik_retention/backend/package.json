@@ -1,0 +1,15 @@
+{
+  "name": "stepik-retention-backend",
+  "version": "1.0.0",
+  "description": "Backend for Stepik Retention Model",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "cors": "^2.8.5",
+    "axios": "^1.7.0"
+  }
+}
