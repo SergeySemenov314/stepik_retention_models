@@ -33,8 +33,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # Замените на ваш IP/домен для production: http://YOUR_IP:3002
-        - REACT_APP_BACKEND_URL=http://localhost:3002
+        # Для работы через Nginx прокси по пути /stepik-retention
+        # API будет доступен по адресу https://domain/stepik-retention/api
+        - REACT_APP_BACKEND_URL=/stepik-retention
     ports:
       - "3003:80"
     environment:

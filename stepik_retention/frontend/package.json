@@ -1,6 +1,7 @@
 {
   "name": "stepik-retention-frontend",
   "version": "1.0.0",
+  "homepage": "/stepik-retention",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",
