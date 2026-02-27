@@ -75,7 +75,7 @@ function App() {
     <div className="App">
       <header className="header">
         <h1>Stepik Retention Model</h1>
-        <p className="subtitle">Предсказание прохождения курса по данным первых 3 дней</p>
+        <p className="subtitle">Предсказание прохождения онлайн курса пользователем по его активности за 3 дня</p>
       </header>
 
       <main className="main">
@@ -83,13 +83,33 @@ function App() {
           <div className="loading-state">Загрузка списка пользователей...</div>
         ) : (
           <>
-            <button
-              className="random-btn"
-              onClick={pickRandomUser}
-              disabled={loading || userIds.length === 0}
-            >
-              {loading ? '⏳ Загрузка...' : '🎲 Случайный пользователь'}
-            </button>
+            <div className="action-block">
+              <div className="action-description">
+                <p className="action-description-main">
+                  Нажмите кнопку — модель выберет случайного пользователя и предскажет,
+                  пройдёт ли он курс до конца
+                </p>
+                <p className="action-description-sub">
+                  {userIds.length.toLocaleString('ru-RU')} пользователей курса{' '}
+                  <a
+                    href="https://stepik.org/course/129/syllabus"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    «Анализ данных в R»
+                  </a>{' '}
+                  на Stepik
+                </p>
+              </div>
+
+              <button
+                className="random-btn"
+                onClick={pickRandomUser}
+                disabled={loading || userIds.length === 0}
+              >
+                {loading ? '⏳ Загрузка...' : '🎲 Случайный пользователь'}
+              </button>
+            </div>
 
             {error && (
               <div className="error-box">
