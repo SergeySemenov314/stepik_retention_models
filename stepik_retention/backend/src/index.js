@@ -21,10 +21,7 @@ try {
   console.error('Run precompute_features.py first.');
 }
 
-app.use(cors({
-  origin: ['http://localhost:3002', 'http://localhost:3003', 'http://localhost:80', 'http://localhost'],
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 // Get list of available user IDs for randomizer
