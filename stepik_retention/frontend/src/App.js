@@ -3,6 +3,11 @@ import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
+const INTEGER_FEATURES = new Set([
+  'days', 'steps_tried', 'correct', 'wrong', 'viewed', 'passed',
+  'last_sub_correct', 'wrong^2', 'wrong viewed', 'days wrong', 'steps_tried viewed'
+]);
+
 const FEATURE_LABELS = {
   days: 'Дней активности',
   steps_tried: 'Шагов с попытками',
@@ -94,27 +99,35 @@ function App() {
 
             {result && (
               <div className="result-card">
-                <div className="result-header">
+                <div className="user-id-header">
                   <h2>Пользователь #{result.userId}</h2>
-                  <div className={`prediction-badge ${result.willComplete ? 'complete' : 'incomplete'}`}>
-                    {result.prediction}
-                  </div>
-                  <div className="probability">
-                    Вероятность: {(result.probability * 100).toFixed(1)}%
+                </div>
+
+                <div className="model-output">
+                  <div className="model-output-label">Прогноз модели</div>
+                  <div className="model-output-content">
+                    <div className={`prediction-badge ${result.willComplete ? 'complete' : 'incomplete'}`}>
+                      {result.prediction}
+                    </div>
+                    <div className="probability">
+                      Вероятность прохождения: {(result.probability * 100).toFixed(1)}%
+                    </div>
                   </div>
                 </div>
 
                 <div className="user-data-section">
-                  <h3>Данные пользователя (первые 3 дня)</h3>
+                  <h3>Данные о пользователе за первые 3 дня</h3>
                   <div className="features-grid">
                     {Object.entries(result.userData || {}).map(([key, value]) => (
                       <div key={key} className="feature-item">
                         <span className="feature-label">{FEATURE_LABELS[key] || key}</span>
                         <span className="feature-value">
-                          {typeof value === 'number' && value < 1 && value > 0
-                            ? value.toFixed(3)
-                            : typeof value === 'number'
-                            ? value.toFixed(1)
+                          {typeof value === 'number'
+                            ? INTEGER_FEATURES.has(key)
+                              ? value.toFixed(0)
+                              : value < 1 && value > 0
+                              ? value.toFixed(3)
+                              : value.toFixed(1)
                             : value}
                         </span>
                       </div>

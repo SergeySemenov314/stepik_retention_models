@@ -82,26 +82,46 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.result-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+.user-id-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.result-header h2 {
+.user-id-header h2 {
   margin: 0;
   font-size: 1.25rem;
 }
 
-.prediction-badge {
-  padding: 0.4rem 1rem;
-  border-radius: 8px;
+.model-output {
+  background: rgba(0, 217, 255, 0.06);
+  border: 1px solid rgba(0, 217, 255, 0.25);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.model-output-label {
+  font-size: 0.75rem;
   font-weight: 600;
-  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #00d9ff;
+  margin-bottom: 0.75rem;
+}
+
+.model-output-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.prediction-badge {
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .prediction-badge.complete {
@@ -116,8 +136,9 @@
 
 .probability {
   margin-left: auto;
-  color: #8892b0;
-  font-size: 0.9rem;
+  color: #e8e8e8;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .user-data-section h3 {
