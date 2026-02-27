@@ -2,11 +2,11 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY model_service/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app.py .
-COPY models/ ./models/
+COPY model_service/app.py .
+COPY model_service/models/ ./models/
 
 EXPOSE 8000
 

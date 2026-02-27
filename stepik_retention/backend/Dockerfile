@@ -2,11 +2,11 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
+COPY backend/package.json backend/package-lock.json* ./
 RUN npm install --production
 
-COPY src/ ./src/
-COPY data/ ./data/
+COPY backend/src/ ./src/
+COPY backend/data/ ./data/
 
 EXPOSE 3002
 
