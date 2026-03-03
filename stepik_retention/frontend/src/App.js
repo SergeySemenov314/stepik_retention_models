@@ -33,11 +33,11 @@ const FEATURE_LABELS = {
 const ML_DESCRIPTION = [
   {
     title: 'Исходные данные',
-    text: 'На старте были только сырые логи действий пользователей: таблица событий (просмотр, прохождение, начало попытки шага) и таблица сабмитов (правильные / неправильные ответы) с unix-таймстемпами. Никаких готовых признаков — только сырые события.'
+    text: <>На старте были только сырые логи действий пользователей курса <a href="https://stepik.org/course/129/syllabus" target="_blank" rel="noopener noreferrer">«Анализ данных в R»</a> на Stepik за 3 года: таблица событий (просмотр, прохождение, начало попытки шага) и таблица сабмитов (правильные / неправильные ответы) с unix-таймстемпами. Никаких готовых признаков — только сырые события.</>
   },
   {
     title: 'Целевая переменная',
-    text: 'Пользователь считается прошедшим курс, если он выполнил более 170 шагов. Это пороговое значение было определено на основе анализа распределения пройденных шагов.'
+    text: 'Пользователь считается прошедшим курс, если он выполнил более 170 шагов.'
   },
   {
     title: 'Предобработка данных',
@@ -61,7 +61,7 @@ const ML_DESCRIPTION = [
   },
   {
     title: 'Деплой',
-    text: 'Модель упакована в Docker-контейнер с FastAPI-сервисом инференса. Рядом развёрнут Node.js бэкенд, который хранит предвычисленные признаки пользователей и проксирует запросы к модели. Фронтенд на React обращается к бэкенду через Nginx reverse proxy.'
+    text: 'Модель упакована в Docker-контейнер с FastAPI-сервисом инференса. Рядом развёрнут Node.js бэкенд, который хранит предвычисленные признаки пользователей и проксирует запросы к модели. Фронтенд на React обращается к бэкенду.'
   }
 ];
 
@@ -109,19 +109,20 @@ function App() {
 
   return (
     <div className="App">
+      <button className="info-btn" onClick={() => setShowModal(true)}>
+        Как модель создавалась?
+      </button>
+
       <header className="header">
         <h1>Stepik Retention Model</h1>
         <p className="subtitle">Предсказание прохождения онлайн курса пользователем по его активности за 3 дня</p>
-        <button className="info-btn" onClick={() => setShowModal(true)}>
-          Как устроена модель?
-        </button>
       </header>
 
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Как устроена модель</h2>
+              <h2>Как создавалась модель</h2>
               <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
             </div>
             <div className="modal-body">
