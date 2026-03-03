@@ -30,12 +30,48 @@ const FEATURE_LABELS = {
   'steps_tried viewed': 'steps_tried × viewed'
 };
 
+const ML_DESCRIPTION = [
+  {
+    title: 'Исходные данные',
+    text: 'На старте были только сырые логи действий пользователей: таблица событий (просмотр, прохождение, начало попытки шага) и таблица сабмитов (правильные / неправильные ответы) с unix-таймстемпами. Никаких готовых признаков — только сырые события.'
+  },
+  {
+    title: 'Целевая переменная',
+    text: 'Пользователь считается прошедшим курс, если он выполнил более 170 шагов. Это пороговое значение было определено на основе анализа распределения пройденных шагов.'
+  },
+  {
+    title: 'Предобработка данных',
+    text: 'Для каждого пользователя было найдено время первого события и отфильтрованы только действия в рамках первых 3 дней активности. Это имитирует реальный сценарий: предсказываем удержание на раннем этапе, не зная будущего.'
+  },
+  {
+    title: 'Дисбаланс классов',
+    text: 'В процессе анализа стало понятно, что задача имеет сильный дисбаланс классов: из ~17 985 пользователей курс прошли только ~1 425 (около 8%). Accuracy стала бессмысленной метрикой — модель, всегда предсказывающая "не пройдёт", даёт 92% точности. В качестве основных метрик были выбраны ROC-AUC и F1.'
+  },
+  {
+    title: 'Фиче инжиниринг',
+    text: 'Из событий было извлечено 13 базовых признаков: количество дней активности, шагов с попытками, правильных и неправильных ответов, доля правильных с первой попытки, конверсия просмотр→прохождение, часы активности, последний результат и др. Затем методом перебора были протестированы 91 полиномиальный признак (квадраты и попарные произведения). Лучшие 6 добавлены в итоговый набор: view_to_pass × active_hours, days × first_try_ratio, wrong × viewed, days × wrong, wrong², steps_tried × viewed.'
+  },
+  {
+    title: 'Выбор модели',
+    text: 'Было обучено и сравнено 4 модели с учётом дисбаланса классов (class_weight / scale_pos_weight): Logistic Regression, Random Forest, Gradient Boosting и XGBoost. XGBoost показал лучший ROC-AUC. Для него был проведён RandomizedSearchCV по 100 конфигурациям гиперпараметров — отдельно с оптимизацией по ROC-AUC и по F1.'
+  },
+  {
+    title: 'Итоговая модель',
+    text: 'Выбрана XGBoost с оптимизацией по ROC-AUC: ROC-AUC = 0.8413, Recall = 0.73, F1 = 0.36. Несмотря на невысокий F1 (следствие дисбаланса), модель хорошо ранжирует пользователей по вероятности прохождения курса, что и является целью задачи.'
+  },
+  {
+    title: 'Деплой',
+    text: 'Модель упакована в Docker-контейнер с FastAPI-сервисом инференса. Рядом развёрнут Node.js бэкенд, который хранит предвычисленные признаки пользователей и проксирует запросы к модели. Фронтенд на React обращается к бэкенду через Nginx reverse proxy.'
+  }
+];
+
 function App() {
   const [userIds, setUserIds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -76,7 +112,32 @@ function App() {
       <header className="header">
         <h1>Stepik Retention Model</h1>
         <p className="subtitle">Предсказание прохождения онлайн курса пользователем по его активности за 3 дня</p>
+        <button className="info-btn" onClick={() => setShowModal(true)}>
+          Как устроена модель?
+        </button>
       </header>
+
+      {showModal && (
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Как устроена модель</h2>
+              <button className="modal-close" onClick={() => setShowModal(false)}>✕</button>
+            </div>
+            <div className="modal-body">
+              {ML_DESCRIPTION.map((section, i) => (
+                <div key={i} className="modal-section">
+                  <div className="modal-section-number">{i + 1}</div>
+                  <div className="modal-section-content">
+                    <h3>{section.title}</h3>
+                    <p>{section.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <main className="main">
         {loadingUsers ? (
